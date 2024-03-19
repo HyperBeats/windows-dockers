@@ -5,6 +5,10 @@ ARG DEBCONF_NOWARNINGS "yes"
 ARG DEBIAN_FRONTEND "noninteractive"
 ARG DEBCONF_NONINTERACTIVE_SEEN "true"
 
+
+RUN echo "deb http://deb.debian.org/debian/ bookworm main" >> /etc/apt/sources.list.d/bookworm.list
+
+RUN echo -e "Package: *\nPin: release n=trixie\nPin-Priority: 900\nPackage: *\nPin: release n=bookworm\nPin-Priority: 400" | tee /etc/apt/preferences.d/preferences > /dev/null
 RUN apt-get update \
     && apt-get --no-install-recommends -y install \
         curl \
